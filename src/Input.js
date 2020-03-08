@@ -14,7 +14,14 @@ function Input({ secretWord }) {
           value={currentGuess}
           onChange={event => setCurrentGuess(event.target.value)}
         />
-        <button data-test="submit-button" className="btn btn-primary mb-2">
+        <button
+          data-test="submit-button"
+          className="btn btn-primary mb-2"
+          onClick={event => {
+            event.preventDefault();
+            setCurrentGuess("");
+          }}
+        >
           Submit
         </button>
       </form>
