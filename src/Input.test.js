@@ -1,17 +1,36 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from "../test/testUtils";
 import Input from "./Input";
-
+import languagesContext from "./contexts/languageContext";
 /**
  * Setup function for input component.
  * @returns {ReactWrapper}
  */
-const setup = (secretWord = "party") => {
-  return shallow(<Input secretWord={secretWord} />);
+
+const setup = ({ secretWord, language }) => {
+  language = language || "en";
+  secretWord = secretWord || "party";
+  return mount(
+    <languagesContext.Provider value={language}>
+      <Input secretWord={secretWord} />
+    </languagesContext.Provider>
+  );
 };
-test("App renders without error ", () => {
-  let wrapper = setup();
+describe("lanuagePicker", () => {
+  test("correctly renders submit string in english", () => {
+    const wrapper = setup({ language: "en" });
+    const submitButton = findByTestAttr(wrapper, "submit-button");
+    expect(submitButton.text()).toBe("Submit");
+  });
+  test("correctly renders submit string in emoji", () => {
+    const wrapper = setup({ language: "emoji" });
+    const submitButton = findByTestAttr(wrapper, "submit-button");
+    expect(submitButton.text()).toBe("🚀");
+  });
+});
+test("renders without error ", () => {
+  let wrapper = setup({});
   const component = findByTestAttr(wrapper, "component-input");
   expect(component.length).toBe(1);
 });
