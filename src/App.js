@@ -37,6 +37,7 @@ function App() {
     hookActions.getSecretWord(setSecretWord);
   }, []);
   if (!state.secretWord) {
+    console.log(state);
     return (
       <div className="container" data-test="spinner">
         <div className="spinner-border" role="status">
