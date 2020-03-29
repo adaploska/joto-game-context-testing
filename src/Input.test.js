@@ -3,17 +3,21 @@ import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from "../test/testUtils";
 import Input from "./Input";
 import languagesContext from "./contexts/languageContext";
+import successContext from "./contexts/successContext";
 /**
  * Setup function for input component.
  * @returns {ReactWrapper}
  */
 
-const setup = ({ secretWord, language }) => {
+const setup = ({ secretWord, language, success }) => {
   language = language || "en";
   secretWord = secretWord || "party";
+  success = success || false;
   return mount(
     <languagesContext.Provider value={language}>
-      <Input secretWord={secretWord} />
+      <successContext.SuccessProvider value={[success, jest.fn()]}>
+        <Input secretWord={secretWord} />
+      </successContext.SuccessProvider>
     </languagesContext.Provider>
   );
 };
@@ -58,4 +62,8 @@ describe("state controlled input filed", () => {
     submitButton.simulate("click", { preventDefault() {} });
     expect(mockSetCurrentGuess).toHaveBeenCalledWith("");
   });
+});
+test("input component does not show when success is true", () => {
+  const wrapper = setup({ secretWord: "party", success: true });
+  expect(wrapper.isEmptyRender()).toBe(true);
 });
