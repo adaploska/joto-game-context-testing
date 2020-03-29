@@ -51,7 +51,7 @@ function App() {
     <div className="container" data-test="component-app">
       <h1>Jotto</h1>
       <languageContext.Provider value={state.language}>
-        <LangagePicker setLanguage={setLanguage} />
+        <LangagePicker setLanguage={setLanguage} style={{ fontSize: "30px" }} />
         <Input secretWord={state.secretWord} />
       </languageContext.Provider>
     </div>
