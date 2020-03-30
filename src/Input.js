@@ -6,6 +6,7 @@ import stringsModule from "./helpers/strings";
 function Input({ secretWord }) {
   const language = React.useContext(languagesContext);
   const [success, setSuccess] = successContext.useSuccess();
+  console.log(success);
   const [currentGuess, setCurrentGuess] = React.useState("");
   if (success) {
     return null;
@@ -30,6 +31,9 @@ function Input({ secretWord }) {
           className="btn btn-primary mb-2"
           onClick={event => {
             event.preventDefault();
+            if (currentGuess === secretWord) {
+              setSuccess(true);
+            }
             setCurrentGuess("");
           }}
         >
